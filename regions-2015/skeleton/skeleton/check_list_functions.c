@@ -2,6 +2,8 @@
 #include "list.h"
 #include "test_regions.h"
 #include "typedefs.h"
+#include <stddef.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <memory.h>
 

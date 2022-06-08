@@ -1,5 +1,5 @@
-CC      = gcc
-CFLAGS  = -Wall -Werror -pedantic -g -std=c99
+CC      = gcc $(SAN)
+CFLAGS  = -Wall -Werror -pedantic -g -std=c99 -fPIE
 COMMON_OBJS = image.o region.o list.o
 TARGETS	= regions check_list_functions
 GENERATED = output.pgm regions.txt

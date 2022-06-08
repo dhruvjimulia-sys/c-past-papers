@@ -14,7 +14,8 @@ static const char *txt_output = "regions.txt";
 
 int main(int argc, char **argv)
 {
-  if (argc == 2)
+
+	if (argc == 2)
   {
 
     // Load image

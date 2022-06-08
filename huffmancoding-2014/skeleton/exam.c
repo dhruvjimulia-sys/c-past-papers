@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
 
 #include "exam.h"
 
@@ -120,14 +121,27 @@ void huffman_tree_list_free(huffman_tree_list_t *l) {
  * Returns 1 if the string s contains the character c and 0 if it does not.
  */
 int contains(char *s, char c) {
-  return 0;
+	assert(s);
+	for (uint32_t i = 0; s[i] != '\0'; i++) {
+		if (s[i] == c) {
+			return 1;
+		}
+	}
+	return 0;
 }
 
 /*
  * Returns the number of occurrences of c in s.
  */
 int frequency(char *s, char c) {
-  return 0;
+	assert(s);
+	uint32_t freq = 0;
+	for (uint32_t i = 0; s[i] != '\0'; i++) {
+		if (s[i] == c) {
+			freq++;
+		}
+	}
+	return freq;
 }
 
 /*
@@ -138,7 +152,17 @@ int frequency(char *s, char c) {
  *      characters.
  */
 char *nub(char *s) {
-  return NULL;
+	assert(s);
+	char* nub_string = malloc(MAX_STRING_LENGTH - 1);
+	assert(nub_string);
+	uint32_t j = 0;
+	for (uint32_t i = 0; s[i] != '\0'; i++) {
+		if (!contains(nub_string, s[i])) {
+			nub_string[j] = s[i];
+			j++;
+		}
+	}
+	return nub_string;
 }
 
 /*
@@ -150,10 +174,20 @@ char *nub(char *s) {
  * Post:  The list l is sorted according to the frequency counts of the trees
  *        it contains.
  */
-huffman_tree_list_t *huffman_tree_list_add(huffman_tree_list_t *l,
-                                            huffman_tree_t *t) {
+huffman_tree_list_t *huffman_tree_list_add(huffman_tree_list_t *l, huffman_tree_t *t) {
+	assert(t);
+	huffman_tree_list_t *new_list = malloc(sizeof(huffman_tree_list_t));
+	assert(new_list);
 
-  return NULL;
+	if (l == NULL) {
+		*new_list = (huffman_tree_list_t) {t, NULL};
+	} else if (t->count < l->tree->count) {
+		*new_list = (huffman_tree_list_t) {t, l};
+	} else {
+		*new_list = (huffman_tree_list_t) {l->tree, huffman_tree_list_add(l->next, t)};
+		free(l);
+	}
+	return new_list;
 }
 
 /*
@@ -167,7 +201,16 @@ huffman_tree_list_t *huffman_tree_list_add(huffman_tree_list_t *l,
  *        trees it contains.
  */
 huffman_tree_list_t *huffman_tree_list_build(char *s, char *t) {
-  return NULL;
+	assert(s);
+	assert(t);
+	huffman_tree_list_t* list = NULL;
+	for (uint32_t i = 0; t[i] != '\0'; i++) {
+		huffman_tree_t *tree = malloc(sizeof(huffman_tree_t));
+		assert(tree);
+		*tree = (huffman_tree_t) {frequency(s, t[i]), t[i], NULL, NULL};
+		list = huffman_tree_list_add(list, tree);
+	}
+	return list;
 }
 
 /*
@@ -179,7 +222,36 @@ huffman_tree_list_t *huffman_tree_list_build(char *s, char *t) {
  * Post:  The resuling list contains a single, correctly-formed Huffman tree.
  */
 huffman_tree_list_t *huffman_tree_list_reduce(huffman_tree_list_t *l) {
-  return NULL;
+	assert(l);
+	assert(l->tree);
+	if (l->next == NULL) {
+		return l;
+	}
+	huffman_tree_t* new_tree = malloc(sizeof(huffman_tree_t));
+	assert(new_tree);
+	*new_tree = (huffman_tree_t) {l->tree->count + l->next->tree->count, '\0', l->tree, l->next->tree};
+	huffman_tree_list_t *new_list = huffman_tree_list_add(l->next->next, new_tree);
+	free(l->next);
+	free(l);
+	return huffman_tree_list_reduce(new_list);
+}
+
+char *build_encoding(huffman_tree_t *t, uint32_t encoding_position, char current) {
+	if (t->left == NULL && t->right == NULL) {
+		if (t->letter == current) {
+
+		}
+	}
+	if (t->left != NULL) {
+		char *left_pos = build_encoding(t->left, encoding_position, current);
+		if (strlen(left_pos) > 0) {
+
+		}
+	}
+	if (t->right != NULL) {
+		build_encoding(t->right, encoding_position, current);
+	}
+	return NULL; 
 }
 
 /*
@@ -189,7 +261,13 @@ huffman_tree_list_t *huffman_tree_list_reduce(huffman_tree_list_t *l) {
  * Pre: s only contains characters present in the tree t.
  */
 char *huffman_tree_encode(huffman_tree_t *t, char *s) {
-  return NULL;
+	char *encoding; // = malloc(MAX_CODE_LENGTH - 1);
+	// uint32_t curr_position = 0;
+	assert(encoding);
+	for (uint32_t i = 0; s[i] != '\0'; i++) {
+		build_encoding(t, 0, s[i]);
+	}
+	return NULL;
 }
 
 /*
