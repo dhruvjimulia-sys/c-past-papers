@@ -1,4 +1,4 @@
-CC      = gcc
+CC      = gcc $(SAN)
 CFLAGS  = -Wall -g -pedantic -std=c99
 LIBS = -lm
 

@@ -2,3 +2,6 @@
 //EXPLAIN YOUR SOLUTION FOR PART I HERE///////////////////////
 //////////////////////////////////////////////////////////////
 7.
+Global variables like x, y and scale should be local variables that are passed into the dragon function. Not only will this prevent variables from polluting the global namespace, it will also make it easier to switch from the jurassic dragon to the twin dragon.
+The output filename should also be passed into the dragon function so that it is easier to modify the filename when required. Even more ideally, the output filename should be taken as another command line argument.
+The drawn_pixels++ in the string_iteration function should be moved to the set_pixels function. Subsequently, the global variable drawn_pixels can be declared as a static const local variable in the draw_greyscale function (since draw_greeyscale is the only function that uses draw_pixels).

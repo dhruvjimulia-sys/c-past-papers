@@ -1,3 +1,8 @@
 //////////////////////////////////////////////////////////////
 //EXPLAIN YOUR SOLUTION FOR PART II HERE///////////////////////
 //////////////////////////////////////////////////////////////
+For cpybuffer:
+The CopyUniqueLettersPtr function should return the final unique letters string instead of passing the dst string as an argument. The return value can then be assigned to the cpybuffer.
+Instead of reallocing memory for dst we should instead malloc dst and strncpy from temp before freeing temp.
+For intbuffer:
+Reading array values from array that is a NULL pointer is an illegal read and causes a segmentation fault. Therefore, intbuffer[5] is invalid read and therefore was commented out.
