@@ -1,6 +1,7 @@
 #include "string_utils.h"
 #include "map.h"
 #include <assert.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -32,13 +33,24 @@ static void map_apply_elems_internal(struct map_node *node, void (*function)(voi
 
 struct map_node *map_insert_internal(struct map_node *node, const char *key, void *value, int *result)
 {
-
- /* YOU SHOULD DELETE THE CONTENTS OF THIS FUNCTION AND REPLACE IT WITH
-  * YOUR ANSWER TO PART 2, QUESTION 1.
-  */
-
-  fprintf(stderr, "map_insert_internal() unimplemented.\n");
-  return NULL;
+  if (node == NULL) {
+    node = map_alloc_node();
+    node->key = clone(key);
+    node->value = value;
+    node->left = NULL;
+    node->right = NULL;
+    *result = 1;
+    return node;
+  }
+  int32_t compare = strcmp(node->key, key);
+  if (compare == 0) {
+    *result = 0;
+  } else if (compare > 0) {
+    node->left = map_insert_internal(node->left, key, value, result);
+  } else {
+    node->right = map_insert_internal(node->right, key, value, result);
+  }
+  return node;
 }
 
 
@@ -46,11 +58,18 @@ struct map_node *map_insert_internal(struct map_node *node, const char *key, voi
 
 void map_apply_elems(struct map *m, void (*function)(void *))
 {
- /* YOU SHOULD DELETE THE CONTENTS OF THIS FUNCTION AND REPLACE IT WITH
-  * YOUR ANSWER TO PART 3, QUESTION 1.
-  */
+  map_apply_elems_internal(m->root, function);
 }
 
+
+static void map_apply_elems_internal(struct map_node *node, void (*function)(void *)) {
+  if (node == NULL) {
+    return;
+  }
+  map_apply_elems_internal(node->left, function);
+  map_apply_elems_internal(node->right, function);
+  function(node->value);
+}
 
 /* Allocates a struct map_node */
 

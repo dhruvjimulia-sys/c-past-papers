@@ -1,3 +1,4 @@
+CC = gcc
 CFLAGS=-std=c99 -Wall -pedantic -Werror -g -D_POSIX_SOURCE -Wno-unused-function
 LDLIBS=-lpcreposix
 

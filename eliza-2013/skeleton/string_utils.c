@@ -6,18 +6,19 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
+#include <stdint.h>
 
 /* Returns a heap allocated, null-terminated, zero-length string. */
 
 char *empty_string(void)
 {
-
- /* YOU SHOULD DELETE THE CONTENTS OF THIS FUNCTION AND REPLACE IT WITH
-  * YOUR ANSWER TO PART I, QUESTION 1.
-  */
-
-  fprintf(stderr, "empty_string() unimplemented.\n");
-  exit(EXIT_FAILURE);
+	char *string = malloc(sizeof(char));
+	if (string == NULL) {
+		perror("char *empty_string: could not malloc empty string\n");
+		exit(EXIT_FAILURE);
+	}
+	string[0] = '\0';
+	return string;
 }
 
 
@@ -25,13 +26,14 @@ char *empty_string(void)
 
 char *clone(const char *str)
 {
-
- /* YOU SHOULD DELETE THE CONTENTS OF THIS FUNCTION AND REPLACE IT WITH
-  * YOUR ANSWER TO PART I, QUESTION 2.
-  */
-
-  fprintf(stderr, "clone() unimplemented.\n");
-  exit(EXIT_FAILURE);
+	uint32_t len = strlen(str) + 1;
+	char *string = malloc(len * sizeof(char));
+	if (string == NULL) {
+		perror("char *clone: could not malloc cloned string\n");
+		exit(EXIT_FAILURE);
+	}
+	strncpy(string, str, len);
+	return string;
 }
 
 
@@ -42,13 +44,16 @@ char *clone(const char *str)
 
 char *push_string(char *current, const char *append)
 {
-
- /* YOU SHOULD DELETE THE CONTENTS OF THIS FUNCTION AND REPLACE IT WITH
-  * YOUR ANSWER TO PART I, QUESTION 3.
-  */
-
-  fprintf(stderr, "push_string() unimplemented.\n");
-  exit(EXIT_FAILURE);
+	uint32_t len = strlen(current) + strlen(append) + 1;
+	char *string = malloc(len);
+	if (string == NULL) {
+		perror("char *push_string: could not malloc appended string\n");
+		exit(EXIT_FAILURE);
+	}
+  memcpy(string, current, strlen(current));
+	memcpy(string + strlen(current), append, strlen(append) + 1);
+	free(current);
+  return string;
 }
 
 
