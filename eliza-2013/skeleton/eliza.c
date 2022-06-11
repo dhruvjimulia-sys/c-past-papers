@@ -39,7 +39,7 @@ static int tokenize_and_rewrite(struct eliza_state *eliza, const char* const_inp
   for(int index = 0; index < token_count; ++index)
   {
     make_lowercase(tokens[index]);
-
+    
     char *replacement = (char *) map_lookup(&eliza->synonyms, tokens[index]);
 
     if (replacement == NULL)

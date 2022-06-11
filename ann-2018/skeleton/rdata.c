@@ -45,6 +45,10 @@ int main(int argc, char *argv[])
 
   /* Free up resources. */
   free(targets);
+  // LEAKFIX
+  for (int i = 0; i < input_rows; ++i) {
+    free(inputs[i]);
+  }
   free(inputs);
 
   return EXIT_SUCCESS;
